@@ -67,12 +67,15 @@ class UI(QtGui.QWidget):
 		self.setLayout(hbox)
 		self.setWindowTitle('Utagumo client')	
 		self.show()
-	
+
+ui = None
+
 def shutdown():
+	global ui
 	ui.client.stop()
 
 def main():
-	
+	global ui
 	app = QtGui.QApplication(sys.argv)
 	ui = UI()
 	app.aboutToQuit.connect(shutdown)
