@@ -1,0 +1,88 @@
+#!/usr/bin/python
+
+from PyQt4 import QtGui, QtCore
+import logging
+import os
+import sys
+import threading
+from Player import Client
+
+API_URL = "http://localhost:8080/api"
+
+logging.basicConfig(level=logging.INFO)
+
+class UI(QtGui.QWidget):
+	
+	def __init__(self):
+		super(UI, self).__init__()
+		
+		self.initUI()
+		self.client = Client(API_URL)
+	
+	def toggle(self):
+		if self.client.playing:
+			self.client.toggle()
+			self.togglebtn.setText("▶")
+		else:
+			self.client.toggle()
+			self.togglebtn.setText("❚❚")
+	
+	def stop(self):
+		self.client.stop()
+		self.togglebtn.setText("▶")
+	
+	def next(self):
+		self.client.skip()
+		self.togglebtn.setText("❚❚")
+	
+	def initUI(self):			   
+		
+		hbox = QtGui.QHBoxLayout()
+		
+		
+		#self.qbtn = QtGui.QPushButton('Quit', self)
+		#self.qbtn.clicked.connect(QtCore.QCoreApplication.instance().quit)
+		#self.qbtn.resize(self.qbtn.sizeHint())
+		#hbox.addWidget(self.qbtn)
+		
+		
+		self.togglebtn = QtGui.QPushButton('▶', self)
+		self.togglebtn.clicked.connect(self.toggle)
+		self.togglebtn.resize(self.togglebtn.sizeHint())
+		
+		hbox.addWidget(self.togglebtn)
+		
+		self.stopbtn = QtGui.QPushButton('◼', self)
+		self.stopbtn.clicked.connect(self.stop)
+		self.stopbtn.resize(self.stopbtn.sizeHint())
+		
+		hbox.addWidget(self.stopbtn)
+		
+		self.nextbtn = QtGui.QPushButton('▶❚', self)
+		self.nextbtn.clicked.connect(self.next)
+		self.nextbtn.resize(self.nextbtn.sizeHint())
+		
+		hbox.addWidget(self.nextbtn)
+		#self.setGeometry(300, 300, 250, 10)
+		self.setLayout(hbox)
+		self.setWindowTitle('Utagumo client')	
+		self.show()
+	
+def shutdown():
+	ui.client.stop()
+
+def main():
+	
+	app = QtGui.QApplication(sys.argv)
+	ui = UI()
+	app.aboutToQuit.connect(shutdown)
+	ret = app.exec_()
+	#sys.exit(ret)
+
+
+
+if __name__ == "__main__":
+	main()
+#	client = Client("http://localhost:8080/api")
+#	client.display_collection()
+#	client.start()
