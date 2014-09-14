@@ -15,8 +15,15 @@ class UtaGUI(Frame, Interface):
 		self.initUI()
 		self.client = Client(API_URL)
 
+	def refresh(self):
+		logging.info("State: %s" % (str(self.state.playing)))
+		if self.state.playing:
+			self.playbtn["text"] = "❚❚"
+		else:
+			self.playbtn["text"] = "▶"
+
 	def initUI(self):
-		self.playbtn = Button(width="4", text="▶❚❚")
+		self.playbtn = Button(width="4", text="▶")
 		self.playbtn["command"] = self.toggle
 
 		self.stopbtn = Button(width="4", text="◼")
