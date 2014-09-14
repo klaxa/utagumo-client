@@ -35,8 +35,8 @@ class UtaGUI(Frame, Interface):
 
 def main():
 	root = Tk()
-
 	root.title("Utagumo")
+
 	root.resizable(width=FALSE, height=FALSE)
 	ws = root.winfo_screenwidth()
 	hs = root.winfo_screenheight()
@@ -51,7 +51,6 @@ def main():
 	logging.info("Running")
 	root.mainloop()
 	logging.info("Dying")
-	app.destroy()
 
 if __name__ == '__main__':
 	main()
