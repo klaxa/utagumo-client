@@ -25,13 +25,9 @@ class UtaGUI(Frame, Interface):
 		self.nextbtn = Button(width="4", text="▶❚")
 		self.nextbtn["command"] = self.next
 
-		self.playbtn.pack()
-		self.stopbtn.pack()
-		self.nextbtn.pack()
-
-		#self.playbtn.grid(row=0, column=0)
-		#self.stopbtn.grid(row=0, column=1)
-		#self.nextbtn.grid(row=0, column=2)
+		self.playbtn.grid(row=0, column=0, padx=10)
+		self.stopbtn.grid(row=0, column=1, pady=10)
+		self.nextbtn.grid(row=0, column=2, padx=10)
 
 def main():
 	root = Tk()
