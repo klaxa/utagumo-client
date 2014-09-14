@@ -1,12 +1,10 @@
 #!/usr/bin/python
 
-from PyQt4 import QtGui, QtCore
 import logging
-import os
 import sys
-import threading
 from Player import Client
 from Interface import Interface, State
+from PyQt4 import QtGui, QtCore
 
 API_URL = "http://localhost:8080/api"
 
