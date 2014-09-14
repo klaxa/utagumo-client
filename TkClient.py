@@ -5,7 +5,7 @@ from Player import Client
 from Interface import Interface, State
 from tkinter import Tk, Frame, Button, FALSE
 
-API_URL = "http://dedi.klaxa.eu:8080/api"
+API_URL = "http://localhost:8080/api"
 logging.basicConfig(level=logging.INFO)
 
 class UtaGUI(Frame, Interface):
