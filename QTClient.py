@@ -6,34 +6,26 @@ import os
 import sys
 import threading
 from Player import Client
+from Interface import Interface, State
 
 API_URL = "http://localhost:8080/api"
 
 logging.basicConfig(level=logging.INFO)
 
-class UI(QtGui.QWidget):
+class UI(QtGui.QWidget, Interface):
 	
 	def __init__(self):
 		super(UI, self).__init__()
-		
 		self.initUI()
+		self.state = State()
 		self.client = Client(API_URL)
 	
-	def toggle(self):
-		if self.client.playing:
-			self.client.toggle()
-			self.togglebtn.setText("▶")
-		else:
-			self.client.toggle()
+	def refresh(self):
+		logging.info("State: %s" % (str(self.state.playing)))
+		if self.state.playing:
 			self.togglebtn.setText("❚❚")
-	
-	def stop(self):
-		self.client.stop()
-		self.togglebtn.setText("▶")
-	
-	def next(self):
-		self.client.skip()
-		self.togglebtn.setText("❚❚")
+		else:
+			self.togglebtn.setText("▶")
 	
 	def initUI(self):			   
 		
@@ -68,17 +60,11 @@ class UI(QtGui.QWidget):
 		self.setWindowTitle('Utagumo client')	
 		self.show()
 
-ui = None
-
-def shutdown():
-	global ui
-	ui.client.stop()
 
 def main():
-	global ui
 	app = QtGui.QApplication(sys.argv)
 	ui = UI()
-	app.aboutToQuit.connect(shutdown)
+	app.aboutToQuit.connect(ui.cleanup)
 	ret = app.exec_()
 	#sys.exit(ret)
 
