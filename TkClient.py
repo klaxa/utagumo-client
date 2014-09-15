@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import logging
-from Player import Client
+from Client import Client
 from Interface import Interface, State
 from tkinter import Tk, Frame, Button, FALSE
 

@@ -2,7 +2,7 @@
 
 import logging
 import sys
-from Player import Client
+from Client import Client
 from Interface import Interface, State
 from PyQt4 import QtGui, QtCore
 
