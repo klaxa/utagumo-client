@@ -2,26 +2,31 @@
 
 import logging
 import threading
+import select
 import subprocess
 import sys
 import time
-import select
+import queue
 
 PLAYER="mpv"
 BUFSIZE=64
 logging.basicConfig(level=logging.INFO)
 
 class Mpv():
-	def __init__(self, callback):
+	def __init__(self, callback, ui_callback):
 		self.playing = False
 		self.proc = None
 		self.callback = callback
+		self.ui_callback = ui_callback
+		self.stderr = "" # queue.Queue()
 	def _play(self):
 		while self.proc.poll() == None:
 			#stdout = self.proc.stdout.read(1)
 			(read, foo, bar) = select.select([self.proc.stderr], [], [])
 			if self.proc.stderr in read:
-				stderr = self.proc.stderr.readline()
+				#self.stderr.put(self.proc.stderr.readline())
+				self.stderr = str(self.proc.stderr.readline())
+				self.ui_callback()
 			
 			#logging.info("stdout: %s" % (stdout))
 			#logging.info("stderr: %s" % (stderr))

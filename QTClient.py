@@ -16,25 +16,27 @@ class UI(QtGui.QWidget, Interface):
 		super(UI, self).__init__()
 		self.initUI()
 		self.state = State()
-		self.client = Client(API_URL)
+		self.client = Client(API_URL, self.update_state)
 	
 	def refresh(self):
-		logging.info("State: %s" % (str(self.state.playing)))
+		#logging.info("State: %s %s/%s" % (str(self.state.playing), str(self.state.play_time), str(self.state.track_time)))
 		if self.state.playing:
 			self.togglebtn.setText("❚❚")
 		else:
 			self.togglebtn.setText("▶")
+		self.play_time = str(self.state.play_time)
+		self.track_time = str(self.state.track_time)
+		self.time_label.setText(self.state.time_string)
 	
-	def initUI(self):			   
+	def initUI(self):
 		
 		hbox = QtGui.QHBoxLayout()
-		
+		vbox = QtGui.QVBoxLayout()
 		
 		#self.qbtn = QtGui.QPushButton('Quit', self)
 		#self.qbtn.clicked.connect(QtCore.QCoreApplication.instance().quit)
 		#self.qbtn.resize(self.qbtn.sizeHint())
 		#hbox.addWidget(self.qbtn)
-		
 		
 		self.togglebtn = QtGui.QPushButton('▶', self)
 		self.togglebtn.clicked.connect(self.toggle)
@@ -53,9 +55,14 @@ class UI(QtGui.QWidget, Interface):
 		self.nextbtn.resize(self.nextbtn.sizeHint())
 		
 		hbox.addWidget(self.nextbtn)
-		#self.setGeometry(300, 300, 250, 10)
-		self.setLayout(hbox)
+		vbox.addLayout(hbox)
+		
+		self.time_label = QtGui.QLabel("")
+		self.time_label.resize(self.time_label.sizeHint())
+		vbox.addWidget(self.time_label)
+		self.setLayout(vbox)
 		self.setWindowTitle('Utagumo client')	
+		self.setGeometry(300, 300, 250, 10)
 		self.show()
 
 
